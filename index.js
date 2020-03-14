@@ -1,14 +1,16 @@
+const sleep = require('system-sleep');
+
 module.exports = app => {
   app.on("pull_request.opened", async context => {
-    const workflow_runs = (await context.github.actions.listRepoWorkflowRuns({
-      owner: context.payload.repository.owner.login,
-      repo: context.payload.repository.name,
-      author: context.payload.sender.login
-    })).data.workflow_runs;
+    // wait 10 seconds before we request the workflows from GitHub
+    sleep(10000);
 
-    for (const pull of context.payload.check_run.check_suite.pull_requests) {
-      app.log(pull);
-    }
+    const workflow_runs = (await context.github.request({
+      baseUrl: "https://api.github.com",
+      url: `/repos/${context.payload.repository.full_name}/actions/runs`,
+      method: "GET",
+      headers: { accept: "application/vnd.github.v3+json" }
+    })).data.workflow_runs;
 
     const message = `Hello @${context.payload.pull_request.user.login} :wave: 
 
@@ -29,10 +31,14 @@ Hyperion-Project`;
   });
 
   app.on("pull_request.synchronize", async context => {
-    const workflow_runs = (await context.github.actions.listRepoWorkflowRuns({
-      owner: context.payload.repository.owner.login,
-      repo: context.payload.repository.name,
-      author: context.payload.sender.login
+    // wait 10 seconds before requesting the workflows from GitHub
+    sleep(10000);
+
+    const workflow_runs = (await context.github.request({
+      baseUrl: "https://api.github.com",
+      url: `/repos/${context.payload.repository.full_name}/actions/runs`,
+      method: "GET",
+      headers: { accept: "application/vnd.github.v3+json" }
     })).data.workflow_runs;
 
     const message = `I have a new link to your workflow artifacts for you:
