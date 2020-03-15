@@ -2,9 +2,9 @@
   "//1": "describes your app and its dependencies",
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
-  "name": "Hyperion-Project-Test",
+  "name": "Hyperion-Project",
   "version": "1.0.0",
-  "description": "Comment on open or synchronized PR (Test only)",
+  "description": "Comment on open or synchronized PR",
   "author": "Hyperion-Team <hyperion@hyperion-project.org>",
   "license": "MIT",
   "repository": "https://github.com/hyperion-project/hyperion.bot.git",
@@ -14,8 +14,9 @@
     "test": "jest && standard"
   },
   "dependencies": {
-    "probot": "^9.10.1",
-    "system-sleep": "^1.3.6"
+    "probot": "^9.10.2",
+    "system-sleep": "^1.3.6",
+    "probot-config": "^1.1.0"
   },
   "devDependencies": {
     "jest": "^23.2.0",
