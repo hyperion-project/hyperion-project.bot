@@ -1,2 +1,2 @@
-PR comment bot for Hyperion-Project
+Issue and PR comment bot for Hyperion-Project
 =========================
