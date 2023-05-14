@@ -16,13 +16,12 @@ const replaceTemplateVariables = async function(context, message) {
 
 const getRunID = async function(context) {
   // wait 8 seconds before we request the workflows from GitHub
-  sleep(8000);
+  //sleep(8000);
 
-  const workflow_runs = (await context.github.request({
-    baseUrl: "https://api.github.com",
-    url: `/repos/${context.payload.repository.full_name}/actions/runs`,
-    method: "GET",
-    headers: { accept: "application/vnd.github.v3+json" }
+  const [owner, repo] = context.payload.repository.full_name.split('/');
+  const workflow_runs = (await context.octokit.request("Get /repos/{owner}/{repo}/actions/runs", {
+    owner,
+    repo,
   })).data.workflow_runs;
 
   return workflow_runs[0].id;
@@ -41,14 +40,14 @@ module.exports = async function pr_comment(context) {
     }
 
     const params = context.issue({ body: await replaceTemplateVariables(context, config.PullRequest.opened) });
-    return context.github.issues.createComment(params);
+    return context.octokit.issues.createComment(params);
   } else if (action === "synchronize") {
     if (!config.PullRequest.synchronize) {
       return;
     }
 
     const params = context.issue({ body: await replaceTemplateVariables(context, config.PullRequest.synchronize) });
-    return context.github.issues.createComment(params);
+    return context.octokit.issues.createComment(params);
   }
 
   return;

@@ -27,12 +27,12 @@ module.exports = async function issue(context) {
       return;
     }
 
-    await context.github.issues.update(
+    await context.octokit.issues.update(
       context.issue({
         state: 'closed'
     }))
     
-    return context.github.issues.createComment(
+    return context.octokit.issues.createComment(
       context.issue({
        body: await replaceTemplateVariables(context, config.Issues.opened)
       })
