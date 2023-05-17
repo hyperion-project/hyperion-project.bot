@@ -37,7 +37,7 @@ module.exports = async function trigger(context) {
     authStrategy: createAppAuth,
     auth: {
       appId: process.env.APP_ID,
-      privateKey: process.env.PRIVATE_KEY,
+      privateKey: process.env.PRIVATE_KEY.replace(/\\n/g,'\n'),
       installationId: context.payload.installation.id,
     }
   })
